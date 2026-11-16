@@ -3,8 +3,10 @@
  */
 jQuery(document).ready(function () {
 
-    var username = 'joetest';
-    var secret = 'jcRZVsWP2XdDt5iJIM0mS64hCr3f';
+    // Legacy client-side credentials have been removed. Never place secrets in
+    // JavaScript sent to browsers. Rebuild SOAP auth on the server before reuse.
+    var username = '';
+    var secret = '';
 
     // Set username field
     // jQuery('#beautyfort_beautyfortUser').val(username);
@@ -18,6 +20,9 @@ jQuery(document).ready(function () {
     jQuery(document).on('submit', '#beautyfort-admin-form', function (e) {
 
         e.preventDefault();
+        // Fail closed: legacy authentication cannot safely run in a browser.
+        window.alert('Legacy stock lookup disabled. Rebuild authentication server-side before enabling this integration.');
+        return false;
 
         // disable button until response has been received
         jQuery('#beautyfort-admin-save').attr('disabled', 'disabled');
