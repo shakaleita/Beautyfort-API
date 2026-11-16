@@ -115,7 +115,7 @@ class BeautyFort
                                 <label><?php _e('Secret', 'beautyfort');?></label>
                             </td>
                             <td>
-                                <input name="beautyfort_secret" id="beautyfort_secret" class="regular-text" value="<?php echo (null !== (get_option('beautyfort_secret'))) ? get_option('beautyfort_secret') : ' '; ?>"/>
+                                <input name="beautyfort_secret" id="beautyfort_secret" class="regular-text" type="password" autocomplete="new-password" value=""/>
                             </td>
                         </tr>
                         <tr>
@@ -184,6 +184,13 @@ class BeautyFort
      */
     public function storeAdminData()
     {
+        // Fail closed until SOAP credentials are stored and used server-side.
+        // Keeping the legacy AJAX action disabled prevents requests that may
+        // otherwise expose authentication material in browser/client traffic.
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => 'Forbidden'), 403);
+        }
+        wp_send_json_error(array('message' => 'Legacy integration disabled pending a security rewrite'), 503);
 
         if (wp_verify_nonce($_POST['security'], $this->_nonce) === false) {
             die('Invalid Request! Reload your page please.');
